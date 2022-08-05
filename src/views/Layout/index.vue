@@ -35,37 +35,20 @@ export default {
 }
 </script>
 
-<style lang="less" scope>
-// .layout {
-//   .content {
-//     margin-left: 200px;
-//     // 过渡动画平滑
-//     transition: margin-left ease-in-out 0.3s;
-//   }
-//   .menu {
-//     background-color: rgb(24, 53, 85);
-//     position: fixed;
-//     top: 0;
-//     bottom: 0;
-//   }
-
-//   .isActive {
-//     margin-left: 64px;
-//   }
-// }
+<style lang="less" scoped>
 .layout {
+  .content {
+    margin-left: 200px;
+    // 过渡动画平滑
+    transition: margin-left ease-in-out 0.3s;
+  }
   .menu {
-    // width: 200px;
-    // min-height: 500px;
-    background: #112f50;
+    background-color: rgb(24, 53, 85);
     position: fixed;
     top: 0;
     bottom: 0;
   }
-  .content {
-    margin-left: 200px;
-    transition: all 0.3s;
-  }
+
   .isActive {
     margin-left: 64px;
   }

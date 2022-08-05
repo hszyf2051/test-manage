@@ -25,4 +25,10 @@ export default {
 .goods {
   margin: 20px;
 }
+.header {
+  display: flex;
+  button {
+    margin-left: 15px;
+  }
+}
 </style>
