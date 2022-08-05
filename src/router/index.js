@@ -1,29 +1,72 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import HomeView from '../views/HomeView.vue'
+import Layout from '../views/Layout/index.vue'
+import Home from '../views/Home/index.vue'
+import Login from '../views/Login/Login.vue'
+// 异步
+const Goods = () => import('../views/Goods/Goods.vue')
+const Params = () => import('../views/Params/Params.vue')
+const Advert = () => import('../views/Advert/Advert.vue')
+const Order = () => import('../views/Order/Order.vue')
+const OrderList = () => import('../views/Order/OrderList/index.vue')
+const OrderBack = () => import('../views/Order/OrderBack/index.vue')
 
 Vue.use(VueRouter)
 
 const routes = [
   {
-    path: '/',
-    name: 'home',
-    component: HomeView
+    path: '',
+    component: Layout,
+    children: [
+      {
+        path: '/',
+        name: 'Home',
+        component: Home,
+      },
+      {
+        path: '/goods',
+        name: 'Goods',
+        component: Goods,
+      },
+      {
+        path: '/params',
+        name: 'Params',
+        component: Params,
+      },
+      {
+        path: '/advert',
+        name: 'Advert',
+        component: Advert,
+      },
+      {
+        path: '/order',
+        name: 'Order',
+        component: Order,
+        redirect: '/order/Order-list',
+        children: [
+          {
+            path: 'Order-list',
+            component: OrderList,
+          },
+          {
+            path: 'Order-back',
+            component: OrderBack,
+          },
+        ],
+      },
+    ],
   },
   {
-    path: '/about',
-    name: 'about',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/AboutView.vue')
-  }
+    path: '/login',
+    name: 'Login',
+    component: Login,
+  },
 ]
 
 const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
-  routes
+  routes,
 })
 
 export default router
