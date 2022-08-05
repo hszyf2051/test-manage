@@ -3,14 +3,15 @@
     <el-menu
       default-active="/"
       class="el-menu-vertical-demo"
-      @open="handleOpen"
-      @close="handleClose"
       background-color="rgb(24, 53, 85)"
       text-color="#fff"
       active-text-color="#ffd04b"
       router
-      :collapse="flase"
+      :collapse="isCollapse"
     >
+      <el-menu-item>
+        <span slot="title">后台管理系统</span>
+      </el-menu-item>
       <el-menu-item index="/">
         <i class="el-icon-menu"></i>
         <span slot="title">首页</span>
@@ -50,16 +51,25 @@
 
 <script>
 export default {
+  props: ['isCollapse'],
   data() {
     return {
-      isCollapse: true,
+      // isCollapse: true,
     }
   },
 }
 </script>
 
-<style lang="less" scope>
+<style lang="less" scoped>
 .el-menu {
-  border-right-width: 0;
+  border-right: 0;
+  .is-active {
+    background: #1e78bf !important;
+    color: #fff !important;
+  }
+}
+.el-menu-vertical-demo:not(.el-menu--collapse) {
+  width: 200px;
+  min-height: 400px;
 }
 </style>

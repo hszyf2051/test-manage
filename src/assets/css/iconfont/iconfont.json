@@ -1,44 +1,23 @@
 {
-  "id": "3537587",
-  "name": "Question",
+  "id": "3568424",
+  "name": "Manage",
   "font_family": "iconfont",
   "css_prefix_text": "icon-",
   "description": "",
   "glyphs": [
     {
-      "icon_id": "145438",
-      "name": "搜索",
-      "font_class": "sousuo",
-      "unicode": "e62f",
-      "unicode_decimal": 58927
+      "icon_id": "2404402",
+      "name": "右缩进",
+      "font_class": "yousuojin",
+      "unicode": "e644",
+      "unicode_decimal": 58948
     },
     {
-      "icon_id": "1304895",
-      "name": "用户-圆",
-      "font_class": "yonghu-yuan",
-      "unicode": "e623",
-      "unicode_decimal": 58915
-    },
-    {
-      "icon_id": "10359999",
-      "name": "考试管理",
-      "font_class": "kaoshiguanli",
-      "unicode": "e601",
-      "unicode_decimal": 58881
-    },
-    {
-      "icon_id": "11372693",
-      "name": "删除",
-      "font_class": "shanchu",
-      "unicode": "e8b6",
-      "unicode_decimal": 59574
-    },
-    {
-      "icon_id": "22357080",
-      "name": "考试",
-      "font_class": "kaoshi",
-      "unicode": "e603",
-      "unicode_decimal": 58883
+      "icon_id": "2404407",
+      "name": "左缩进",
+      "font_class": "zuosuojin",
+      "unicode": "e647",
+      "unicode_decimal": 58951
     }
   ]
 }
