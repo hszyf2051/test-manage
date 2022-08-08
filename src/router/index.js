@@ -10,6 +10,7 @@ const Advert = () => import('../views/Advert/Advert.vue')
 const Order = () => import('../views/Order/Order.vue')
 const OrderList = () => import('../views/Order/OrderList/index.vue')
 const OrderBack = () => import('../views/Order/OrderBack/index.vue')
+const Exam = () => import('../views/Exam/Exam.vue')
 
 Vue.use(VueRouter)
 
@@ -27,6 +28,11 @@ const routes = [
         path: '/goods',
         name: 'Goods',
         component: Goods,
+      },
+      {
+        path: '/exam',
+        name: 'Exam',
+        component: Exam,
       },
       {
         path: '/params',

@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-menu
-      default-active="/"
+      :default-active="$router.path"
       class="el-menu-vertical-demo"
       background-color="rgb(24, 53, 85)"
       text-color="#fff"
@@ -27,6 +27,10 @@
       <el-menu-item index="/advert">
         <i class="el-icon-setting"></i>
         <span slot="title">广告分类</span>
+      </el-menu-item>
+      <el-menu-item index="/exam">
+        <i class="el-icon-setting"></i>
+        <span slot="title">试题管理</span>
       </el-menu-item>
       <!-- 下拉导航 -->
       <el-submenu index="/order">
