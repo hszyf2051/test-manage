@@ -1,12 +1,12 @@
 <template>
-  <div class="page">
+  <div class="page" style="text-align: center; margin: 20px">
     <el-pagination
       :hide-on-single-page="value"
       background
       layout="total,prev, pager, next,jumper"
       :total="total"
       :page-size="pageSize"
-      @current-change="handleCurrentChange"
+      @current-change="changePage"
     >
     </el-pagination>
   </div>
@@ -22,6 +22,11 @@ export default {
     pageSize: {
       type: Number,
       default: 10,
+    },
+  },
+  methods: {
+    changePage(page) {
+      this.$emit('changePage', page)
     },
   },
 }

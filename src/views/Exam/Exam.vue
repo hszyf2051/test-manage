@@ -13,8 +13,8 @@
         <el-table-column prop="content" label="试题内容"> </el-table-column>
         <el-table-column prop="quesType" label="试题类型" width="100"> </el-table-column>
         <el-table-column prop="level" label="试题等级" width="100"> </el-table-column>
-        <el-table-column prop="remark" label="试题备注" width="100"> </el-table-column>
-        <el-table-column prop="analysis" label="试题分析"> </el-table-column>
+        <el-table-column prop="remark" label="试题备注" width="100" :show-overflow-tooltip="true"> </el-table-column>
+        <el-table-column prop="analysis" label="试题分析" :show-overflow-tooltip="true"> </el-table-column>
         <el-table-column label="操作" width="180">
           <template slot-scope="scope">
             <el-button size="mini" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
@@ -24,56 +24,52 @@
       </el-table>
     </div>
     <!-- 3、分页 -->
-    <div class="page">
-      <el-pagination
-        :hide-on-single-page="value"
-        :total="total"
-        background
-        layout="prev, pager, next"
-        @current-change="handleCurrentChange"
-      >
-      </el-pagination>
-    </div>
+    <div class="page"><MyPagination :total="total" :pageSize="pageSize" @changePage="changePage" /></div>
   </div>
 </template>
 
 <script>
-import axios from 'axios'
+import { findQuestion } from '@/utils/api'
+import MyPagination from '@/components/MyPagination.vue'
 export default {
+  components: { MyPagination },
   data() {
     return {
       input: '',
-      total: null,
-      tableData: null,
+      total: 10,
+      pageSize: 10,
+      tableData: [],
     }
   },
   created() {
-    const _this = this
-    axios.get('http://localhost:8181/question/findQuestion').then(function (resp) {
-      _this.tableData = resp.data.records
-      _this.total = resp.data.total
-      // console.log(resp)
-    })
+    this.http(1)
   },
   methods: {
+    /**
+     * 试题列表
+     */
+    http(pageNo) {
+      findQuestion({
+        pageNo,
+        pageSize: 10,
+      }).then((res) => {
+        this.tableData = res.records
+        this.total = res.total
+        this.pageSize = res.size
+        this.pageNo = res.current
+      })
+    },
     handleEdit(index, row) {
       console.log(index, row)
     },
     handleDelete(index, row) {
       console.log(index, row)
     },
-    handleCurrentChange(currentPage) {
-      const _this = this
-      axios
-        .get('http://localhost:8181/question/findQuestion', {
-          params: {
-            pageNo: currentPage,
-          },
-        })
-        .then(function (resp) {
-          _this.tableData = resp.data.records
-          _this.total = resp.data.total
-        })
+    /**
+     *  分页跳转页面
+     */
+    changePage(num) {
+      this.http(num)
     },
   },
 }
@@ -90,9 +86,6 @@ export default {
   }
 }
 .wrapper {
-  margin: 20px 0;
-}
-.page {
   margin: 20px 0;
 }
 </style>

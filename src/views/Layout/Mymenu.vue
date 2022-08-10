@@ -68,7 +68,7 @@ export default {
 .el-menu {
   border-right: 0;
   .is-active {
-    background: #1e78bf !important;
+    background: #1e78bf;
     color: #fff !important;
   }
 }

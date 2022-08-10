@@ -7,9 +7,6 @@ import 'element-ui/lib/theme-chalk/index.css'
 import './assets/css/reset.css'
 import './assets/css/iconfont/iconfont.css'
 
-import axios from 'axios'
-
-Vue.prototype.$axios = axios
 Vue.config.productionTip = false
 Vue.use(ElementUI)
 new Vue({
