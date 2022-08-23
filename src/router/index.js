@@ -12,6 +12,10 @@ const OrderList = () => import('../views/Order/OrderList/index.vue')
 const OrderBack = () => import('../views/Order/OrderBack/index.vue')
 const Exam = () => import('../views/Exam/Exam.vue')
 
+// 子集路由
+const AddExam = () => import('../views/Exam/AddExam.vue')
+const AddGoods = () => import('../views/Goods/AddGoods.vue')
+
 Vue.use(VueRouter)
 
 const routes = [
@@ -29,10 +33,21 @@ const routes = [
         name: 'Goods',
         component: Goods,
       },
+      // 添加商品
+      {
+        path: '/add-Goods',
+        name: 'AddGoods',
+        component: AddGoods,
+      },
       {
         path: '/exam',
         name: 'Exam',
         component: Exam,
+      },
+      {
+        path: '/add-Exam',
+        name: 'AddExam',
+        component: AddExam,
       },
       {
         path: '/params',
