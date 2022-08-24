@@ -60,15 +60,41 @@ export default {
         pageNo,
         pageSize: 10,
       }).then((res) => {
-        this.tableData = res.records
-        this.total = res.total
-        this.pageSize = res.size
-        this.pageNo = res.current
+        this.tableData = res.data.records
+        this.total = res.data.total
+        this.pageSize = res.data.size
+        this.pageNo = res.data.current
       })
     },
+    /**
+     * 搜索查询数据
+     */
+    searchInp(content) {
+      console.log(content)
+      findQuestionByContent({
+        content,
+      }).then((res) => {
+        console.log(res)
+        if (res.code === 200) {
+          this.tableData = res.data.records
+          this.total = res.data.total
+          this.pageSize = res.data.size
+          this.pageNo = res.data.current
+          this.searchType = 2
+        } else {
+          this.tableData = []
+        }
+      })
+    },
+    /**
+     * 编辑操作
+     */
     handleEdit(index, row) {
       console.log(index, row)
     },
+    /**
+     * 删除操作
+     */
     handleDelete(index, row) {
       console.log(index, row)
     },
