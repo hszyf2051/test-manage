@@ -2,9 +2,12 @@
   <div class="goods">
     <!-- 1、搜索区域 -->
     <div class="header">
-      <el-input v-model="input" placeholder="请输入内容"></el-input>
+      <!-- change仅在输入框失去焦点或用户按下回车时触发 -->
+      <el-input @change="searchInp" v-model="input" placeholder="请输入试题内容"></el-input>
       <el-button type="primary">查询</el-button>
-      <el-button type="primary">添加</el-button>
+      <el-button type="primary">
+        <router-link to="add-Exam" style="color: #fff">添加</router-link>
+      </el-button>
     </div>
     <!-- 2、表格区域内容展示视图数据 -->
     <div class="wrapper">
@@ -17,19 +20,21 @@
         <el-table-column prop="analysis" label="试题分析" :show-overflow-tooltip="true"> </el-table-column>
         <el-table-column label="操作" width="180">
           <template slot-scope="scope">
-            <el-button size="mini" @click="handleEdit()">编辑</el-button>
-            <el-button size="mini" type="danger" @click="handleDelete()">删除</el-button>
+            <el-button size="mini" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
+            <el-button size="mini" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
           </template>
         </el-table-column>
       </el-table>
     </div>
     <!-- 3、分页 -->
-    <div class="page"><MyPagination :total="total" :pageSize="pageSize" @changePage="changePage" /></div>
+    <div class="page">
+      <MyPagination :total="total" :pageSize="pageSize" @changePage="changePage" />
+    </div>
   </div>
 </template>
 
 <script>
-import { findQuestion } from '@/utils/api'
+import { findQuestion, findQuestionByContent } from '@/utils/api'
 import MyPagination from '@/components/MyPagination.vue'
 export default {
   components: { MyPagination },
@@ -39,6 +44,7 @@ export default {
       total: 10,
       pageSize: 10,
       tableData: [],
+      searchType: 1,
     }
   },
   created() {
@@ -54,25 +60,27 @@ export default {
         pageNo,
         pageSize: 10,
       }).then((res) => {
-        this.tableData = res.data.records
-        this.total = res.data.total
-        this.pageSize = res.data.size
-        this.pageNo = res.data.current
+        this.tableData = res.records
+        this.total = res.total
+        this.pageSize = res.size
+        this.pageNo = res.current
       })
     },
-    /**
-     * 编辑
-     */
-    handleEdit() {},
-    /**
-     * 删除
-     */
-    handleDelete() {},
+    handleEdit(index, row) {
+      console.log(index, row)
+    },
+    handleDelete(index, row) {
+      console.log(index, row)
+    },
     /**
      *  分页跳转页面
      */
     changePage(num) {
-      this.http(num)
+      if (this.searchType == 1) {
+        this.http(num)
+      } else {
+        this.http(num)
+      }
     },
   },
 }
