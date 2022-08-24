@@ -5,9 +5,5 @@ export const findQuestion = (params) => {
     url: '/question/findQuestion',
     method: 'get',
     params,
-    // params: {
-    //   pageNo: '',
-    //   pageSize: '',
-    // },
   })
 }

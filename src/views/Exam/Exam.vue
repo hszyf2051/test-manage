@@ -17,8 +17,8 @@
         <el-table-column prop="analysis" label="试题分析" :show-overflow-tooltip="true"> </el-table-column>
         <el-table-column label="操作" width="180">
           <template slot-scope="scope">
-            <el-button size="mini" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
-            <el-button size="mini" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+            <el-button size="mini" @click="handleEdit()">编辑</el-button>
+            <el-button size="mini" type="danger" @click="handleDelete()">删除</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -48,23 +48,26 @@ export default {
     /**
      * 试题列表
      */
+    // http为方法的名字，调用接口直接  接口名字({参数名,参数值}).then((res)) => {具体实现}
     http(pageNo) {
       findQuestion({
         pageNo,
         pageSize: 10,
       }).then((res) => {
-        this.tableData = res.records
-        this.total = res.total
-        this.pageSize = res.size
-        this.pageNo = res.current
+        this.tableData = res.data.records
+        this.total = res.data.total
+        this.pageSize = res.data.size
+        this.pageNo = res.data.current
       })
     },
-    handleEdit(index, row) {
-      console.log(index, row)
-    },
-    handleDelete(index, row) {
-      console.log(index, row)
-    },
+    /**
+     * 编辑
+     */
+    handleEdit() {},
+    /**
+     * 删除
+     */
+    handleDelete() {},
     /**
      *  分页跳转页面
      */
