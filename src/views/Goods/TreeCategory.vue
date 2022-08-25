@@ -16,55 +16,50 @@
             是否每次只打开一个同级树节点展开
         -->
   <div class="tree">
-    <el-tree :props="props" :load="loadNode" lazy show-checkbox> </el-tree>
+    <el-tree :props="props" :load="loadNode" lazy accordion> </el-tree>
   </div>
 </template>
 
 <script>
-import { findCategoryById } from '@/utils/product.js'
-
+import { findCategoryById } from "@/utils/product.js";
 export default {
   data() {
     return {
-      category: [],
       props: {
-        label: 'title',
-        children: 'zones',
-        isLeaf: 'leaf',
+        label: "name",
+        children: "zones",
+        isLeaf: "leaf",
       },
-    }
+    };
   },
   methods: {
-    // 根据id查询分类
-    Category(id) {
-      findCategoryById({
-        id,
-      }).then((res) => {
-        const category = res.data
-        console.log(category)
-      })
-    },
+    // 加载节点
     loadNode(node, resolve) {
+      console.log(node, "node");
       if (node.level === 0) {
-        // 进入页面 获取第一层的tree数据
-        this.Category(1)
-        // findProject({
-        //   pageNo,
-        //   pageSize: 10,
-        // }).then((res) => {
-        //   this.tableData = res.data.records
-        //   this.total = res.data.total
-        //   this.pageSize = res.data.size
-        //   this.pageNo = res.data.current
-        // })
-        return resolve([{ title: '一级菜单' }, { title: '一级菜单2' }])
+        findCategoryById({
+          id: 1,
+        }).then((res) => {
+          console.log(res);
+          return resolve(res.data);
+        });
       }
-      if (node.level > 1)
+      if (node.level >= 1) {
         // 请求当前的点击的tree下面的数据
-        return resolve([])
+        findCategoryById({
+          id: node.data.cid,
+        }).then((res) => {
+          if(res.code === 200){
+          console.log(res.data);
+          return resolve(res.data);
+          } else{
+            return resolve([]);
+          }
+        });
+      }
     },
   },
-}
+};
 </script>
 
 <style lang="less" scoped></style>
