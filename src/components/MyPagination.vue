@@ -24,6 +24,11 @@ export default {
       default: 10,
     },
   },
+  data() {
+    return {
+      value: false,
+    }
+  },
   methods: {
     changePage(page) {
       this.$emit('changePage', page)
