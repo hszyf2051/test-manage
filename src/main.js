@@ -6,6 +6,9 @@ import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import './assets/css/reset.css'
 import './assets/css/iconfont/iconfont.css'
+// 全局引用api
+import api from './utils/index'
+Vue.prototype.$api = api
 
 Vue.config.productionTip = false
 Vue.use(ElementUI)

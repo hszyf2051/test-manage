@@ -7,7 +7,7 @@ import requests from './request'
  */
 export const findProject = (params) => {
   return requests({
-    url: '/product/findProject',
+    url: '/project/findProject',
     method: 'get',
     params,
   })
@@ -20,7 +20,7 @@ export const findProject = (params) => {
  */
 export const findProjectByTitle = (params) => {
   return requests({
-    url: '/product/findProjectByTitle',
+    url: '/project/findProjectByTitle',
     method: 'get',
     params,
   })
@@ -35,6 +35,18 @@ export const findCategoryById = (params) => {
   return requests({
     url: '/category/findCategoryById',
     method: 'get',
+    params,
+  })
+}
+
+/**
+ * 上传图片
+ * @returns
+ */
+export const uploadImg = (params) => {
+  return requests({
+    url: '/upload/uploadImg',
+    method: 'post',
     params,
   })
 }

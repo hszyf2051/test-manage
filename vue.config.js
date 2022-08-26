@@ -2,7 +2,7 @@ const { defineConfig } = require('@vue/cli-service')
 module.exports = defineConfig({
   // 代理跨域
   devServer: {
-    port: 8083,
+    port: 8085,
     host: '127.0.0.1', // 本地服务器
     proxy: {
       '/api': {

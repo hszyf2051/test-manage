@@ -11,8 +11,9 @@
       <!-- 添加商品表单 -->
       <div class="goods-form">
         <el-form :model="goodsForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
-          <el-form-item label="类目选择" prop="title">
+          <el-form-item label="类目选择" prop="category">
             <el-button type="primary" @click="innerVisible = true">类目选择</el-button>
+            <span class="categorySelect">{{ goodsForm.category }}</span>
           </el-form-item>
           <el-form-item label="商品名称" prop="title">
             <el-input v-model="goodsForm.title"></el-input>
@@ -26,7 +27,7 @@
           <el-form-item label="商品卖点" prop="sellPoint">
             <el-input v-model="goodsForm.sellPoint"></el-input>
           </el-form-item>
-          <el-form-item label="活动时间">
+          <el-form-item label="上架时间">
             <el-col :span="11">
               <el-date-picker
                 type="date"
@@ -41,28 +42,39 @@
             </el-col>
           </el-form-item>
           <el-form-item label="商品图片" prop="image">
-            <el-button type="primary">上传图片</el-button>
+            <el-button type="primary" @click="innerVisibleImg = true">上传图片</el-button>
+            <img :src="goodsForm.image" height="200px" style="margin-left:20px" alt=""></img>
           </el-form-item>
           <el-form-item label="商品描述" prop="descs">
-            <textarea name="text" id="" cols="30" rows="10"></textarea>
+            <!-- <textarea name="text" id="" cols="30" rows="10"></textarea> -->
+            <wangeditor @sendEditor="sendEditor"/>
           </el-form-item>
-          <el-form-item>
+          <!-- <el-form-item>
             <el-button type="primary" @click="submitForm('ruleForm')">确定</el-button>
             <el-button @click="resetForm('ruleForm')">重置</el-button>
-          </el-form-item>
+          </el-form-item> -->
         </el-form>
       </div>
       <!-- 弹窗底部区域 -->
       <span slot="footer" class="dialog-footer">
         <el-button @click="dialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+        <el-button type="primary" @click="submitForm">确 定</el-button>
       </span>
-      <!-- 内弹框  类目选择 -->
+      <!-- 1、内弹框  类目选择 -->
       <el-dialog width="40%" title="类目选择" :visible.sync="innerVisible" append-to-body>
-        <TreeCategory />
+        <TreeCategory @sendTreeData="sendTreeData" />
         <span slot="footer" class="dialog-footer">
           <el-button @click="innerVisible = false">取 消</el-button>
-          <el-button type="primary" @click="innerVisible = false">确 定</el-button>
+          <el-button type="primary" @click="showTreeData">确 定</el-button>
+        </span>
+      </el-dialog>
+
+      <!-- 2、内弹框  上传图片 -->
+      <el-dialog width="40%" title="上传图片" :visible.sync="innerVisibleImg" append-to-body>
+        <UploadImg @sendImg="sendImg" />
+        <span slot="footer" class="dialog-footer">
+          <el-button @click="innerVisibleImg = false">取 消</el-button>
+          <el-button type="primary" @click="showImg">确 定</el-button>
         </span>
       </el-dialog>
     </el-dialog>
@@ -71,27 +83,35 @@
 
 <script>
 import TreeCategory from './TreeCategory.vue'
+import UploadImg from './UploadImg.vue'
+import wangeditor from './WangEditor.vue'
 export default {
   components: {
     TreeCategory,
+    UploadImg,
+    wangeditor,
   },
   data() {
     return {
       dialogVisible: false, // 外弹框
       innerVisible: false, // 内弹框
+      innerVisibleImg: false, // 图片弹框
+      treeData: {}, // 接收子组件传来的tree数据
+      imgUrl: "",
+
       goodsForm: {
         // 表单容器--对象
-        title: '', // 商品名称
-        price: '',
-        num: '',
-        sellPoint: '',
-        image: '',
-        descs: '',
-        category: '', // 商品类目
-        data1: '',
-        data2: '',
+        title: "", // 商品名称
+        price: "",
+        num: "",
+        sellPoint: "",
+        image: "",
+        descs: "",
+        cid:"",  // 类目的id
+        category: "", // 商品类目
+        date1: "", //商品时间
+        date2: "", //商品时间
         type: [],
-        time: '', // 商品时间
       },
       rules: {
         // 校验规则
@@ -106,12 +126,47 @@ export default {
         ],
         price: [{ required: true, message: '请输入商品价格', trigger: 'blur' }],
         num: [{ required: true, message: '请输入商品数量', trigger: 'blur' }],
-        date1: [{ type: 'date', required: true, message: '请选择日期', trigger: 'change' }],
-        date2: [{ type: 'date', required: true, message: '请选择时间', trigger: 'change' }],
+        // date1: [{ type: 'date', required: true, message: '请选择日期', trigger: 'change' }],
+        // date2: [{ type: 'date', required: true, message: '请选择时间', trigger: 'change' }],
       },
     }
   },
   methods: {
+    /**
+     * 获取富文本中的数据
+     */
+    sendEditor(val) {
+      this.goodsForm.descs = val;
+    },
+    /**
+     * 显示图片地址
+     */
+    sendImg(val) {
+      console.log('显示图片地址', val)
+      this.imgUrl = val
+    },
+    /**
+     * 显示图片
+     */
+    showImg() {
+      this.innerVisibleImg = false
+      this.goodsForm.image = this.imgUrl
+    },
+    /**
+     * 回显tree数据
+     */
+    showTreeData() {
+      this.innerVisible = false
+      this.goodsForm.category = this.treeData.name
+      this.goodsForm.cid = this.treeData.cid
+    },
+    /**
+     * 获取子组件传来的tree数据，并赋值
+     */
+    sendTreeData(val) {
+      console.log(val, 'tree数据')
+      this.treeData = val
+    },
     close() {
       // 自定义事件 通知父组件修改变量
       this.$emit('changeDialog')
@@ -124,10 +179,17 @@ export default {
         })
         .catch((_) => {})
     },
-    submitForm(formName) {
-      this.$refs[formName].validate((valid) => {
+    submitForm() {
+      this.$refs.ruleForm.validate((valid) => {
         if (valid) {
-          alert('submit!')
+          console.log('获取输入的信息',this.goodsForm)
+          let {title,cid,category,sellPoint,price,num,descs,image} = this.goodsForm;
+          this.$api.addGoods(
+            // params
+            this.goodsForm
+          ).then(res=>{
+            console.log("添加----实现---",res.data)
+          })
         } else {
           console.log('error submit!!')
           return false
@@ -144,5 +206,9 @@ export default {
 <style lang="less" scoped>
 .line {
   text-align: center;
+}
+.categorySelect {
+  margin: 10px;
+  padding: 10px;
 }
 </style>
