@@ -1,32 +1,36 @@
 import Vue from 'vue'
 import VueI18n from 'vue-i18n'
+import Element from 'element-ui'
+import enLocale from 'element-ui/lib/locale/lang/en'
+import zhLocale from 'element-ui/lib/locale/lang/zh-CN'
+import chinese from './chinese'
+import english from './english'
 
 Vue.use(VueI18n)
 
 const messages = {
   // 1、英文
   en: {
-    menu: {
-      home: 'home',
-      goods: 'Goods',
-      params: 'Specification',
-    },
+    ...english,
+    ...enLocale,
   },
 
   // 2、中文
   zh: {
-    menu: {
-      home: '首页',
-      goods: '商品管理',
-      params: '规格参数',
-    },
+    ...chinese,
+    ...zhLocale,
   },
 }
 
 // 2. 通过选项创建 VueI18n 实例
 const i18n = new VueI18n({
-  locale: 'en', //选中的语言
+  locale: 'zh', //选中的语言
   messages, //语言环境
+})
+
+//兼容写法
+Vue.use(Element, {
+  i18n: (key, value) => i18n.t(key, value),
 })
 
 //3. 导出i18n

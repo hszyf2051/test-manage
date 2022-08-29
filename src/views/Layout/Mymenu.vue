@@ -10,12 +10,13 @@
       :collapse="isCollapse"
     >
       <el-menu-item>
-        <span slot="title">后台管理系统</span>
+        <!-- <span slot="title">后台管理系统</span> -->
+        <span slot="title">{{ $t('menu.title') }}</span>
       </el-menu-item>
       <el-menu-item index="/">
         <i class="el-icon-menu"></i>
         <!-- <span slot="title">首页</span> -->
-        <span slot="title">{{ $t('menu.home') }}</span>
+        <span slot="title">{{ $t('menu.data') }}</span>
       </el-menu-item>
       <el-menu-item index="/goods">
         <i class="el-icon-document"></i>
@@ -29,26 +30,31 @@
       </el-menu-item>
       <el-menu-item index="/advert">
         <i class="el-icon-setting"></i>
-        <span slot="title">广告分类</span>
+        <!-- <span slot="title">广告分类</span> -->
+        <span slot="title">{{ $t('menu.advert') }}</span>
       </el-menu-item>
       <el-menu-item index="/exam">
         <i class="el-icon-setting"></i>
-        <span slot="title">试题管理</span>
+        <!-- <span slot="title">试题管理</span> -->
+        <span slot="title">{{ $t('menu.exam') }}</span>
       </el-menu-item>
       <!-- 下拉导航 -->
       <el-submenu index="/order">
         <template slot="title">
           <i class="el-icon-location"></i>
-          <span>订单管理</span>
+          <!-- <span>订单管理</span> -->
+          <span>{{ $t('menu.order') }}</span>
         </template>
         <el-menu-item-group>
           <el-menu-item index="/order/order-list">
             <i class="el-icon-setting"></i>
-            <span slot="title">订单列表</span>
+            <!-- <span slot="title">订单列表</span> -->
+            <span slot="title">{{ $t('menu.orderList') }}</span>
           </el-menu-item>
           <el-menu-item index="/order/order-back">
             <i class="el-icon-setting"></i>
-            <span slot="title">退货管理</span>
+            <!-- <span slot="title">退货管理</span> -->
+            <span slot="title">{{ $t('menu.orderBack') }}</span>
           </el-menu-item>
         </el-menu-item-group>
       </el-submenu>
