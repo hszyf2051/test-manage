@@ -6,7 +6,7 @@
         width="70%" 宽度大小
 
      -->
-    <el-dialog title="添加商品" :visible.sync="dialogVisible" width="60%" :before-close="handleClose">
+    <el-dialog :title="title" :visible.sync="dialogVisible" width="60%" :before-close="handleClose">
       <!-- 内容区域 -->
       <!-- 添加商品表单 -->
       <div class="goods-form">
@@ -47,7 +47,8 @@
           </el-form-item>
           <el-form-item label="商品描述" prop="descs">
             <!-- <textarea name="text" id="" cols="30" rows="10"></textarea> -->
-            <wangeditor @sendEditor="sendEditor"/>
+            <!-- 富文本编辑器 -->
+            <wangeditor ref="myEditor" @sendEditor="sendEditor"/>
           </el-form-item>
           <!-- <el-form-item>
             <el-button type="primary" @click="submitForm('ruleForm')">确定</el-button>
@@ -57,7 +58,7 @@
       </div>
       <!-- 弹窗底部区域 -->
       <span slot="footer" class="dialog-footer">
-        <el-button @click="dialogVisible = false">取 消</el-button>
+        <el-button @click="clearForm">取 消</el-button>
         <el-button type="primary" @click="submitForm">确 定</el-button>
       </span>
       <!-- 1、内弹框  类目选择 -->
@@ -86,6 +87,18 @@ import TreeCategory from './TreeCategory.vue'
 import UploadImg from './UploadImg.vue'
 import wangeditor from './WangEditor.vue'
 export default {
+  props: {
+    title:{
+      type: String,
+      default: "添加商品",
+    },
+    rowData: {
+      type: Object,
+      default: function(){
+        return {}
+      }
+    }
+  },
   components: {
     TreeCategory,
     UploadImg,
@@ -98,7 +111,6 @@ export default {
       innerVisibleImg: false, // 图片弹框
       treeData: {}, // 接收子组件传来的tree数据
       imgUrl: "",
-
       goodsForm: {
         // 表单容器--对象
         title: "", // 商品名称
@@ -111,7 +123,6 @@ export default {
         category: "", // 商品类目
         date1: "", //商品时间
         date2: "", //商品时间
-        type: [],
       },
       rules: {
         // 校验规则
@@ -130,6 +141,19 @@ export default {
         // date2: [{ type: 'date', required: true, message: '请选择时间', trigger: 'change' }],
       },
     }
+  },
+  // 监听器
+  watch: {
+    rowData(val){
+    // 获取从父组件那里的数据 并赋值给goodsForm表单
+    this.goodsForm = val; 
+    // 编辑富文本编辑器的数据
+    this.$nextTick(()=>{
+    console.log("wangEditor",this.$refs.myEditor);
+    this.$refs.myEditor.editor.txt.html(val.descs)
+    })
+    }
+
   },
   methods: {
     /**
@@ -174,30 +198,83 @@ export default {
     handleClose(done) {
       this.$confirm('确认关闭？')
         .then((_) => {
-          // done()
-          this.dialogVisible = false
+          this.clearForm();
         })
         .catch((_) => {})
     },
     submitForm() {
       this.$refs.ruleForm.validate((valid) => {
         if (valid) {
-          console.log('获取输入的信息',this.goodsForm)
-          let {title,cid,category,sellPoint,price,num,descs,image} = this.goodsForm;
-          this.$api.addGoods(
+          console.log('获取输入的信息',this.goodsForm);
+          if(this.title === "添加商品"){  // 此时确认页面为添加商品页面
+              this.$api.addGoods(
             // params
             this.goodsForm
           ).then(res=>{
-            console.log("添加----实现---",res.data)
+            console.log(res)
+            if(res.code===200)
+             {
+              this.$message({
+                showClose: true,
+                message: '商品添加成功',
+                type: 'success',
+              })
+            this.$parent.http(1); // 更新父组件数据 
+            // 添加成功 页面关闭
+            this.clearForm();
+            } else {
+              // 添加失败 请重新输入
+              this.$message.error('商品添加失败，请重新输入');
+            }
           })
-        } else {
-          console.log('error submit!!')
+          } else { // 编辑商品页面
+              console.log("编辑商品");
+              this.$api.updateGoods(
+                // params
+                this.goodsForm
+              ).then(res=>{
+                console.log(res)
+                if(res.code===200)
+             {
+              this.$message({
+                showClose: true,
+                message: '商品编辑成功',
+                type: 'success',
+              })
+              this.$parent.http(1); // 更新父组件数据 
+              // 添加成功 页面关闭
+              this.clearForm();
+            } else {
+              // 添加失败 请重新输入
+              this.$message.error('商品名重复，请重新输入');
+            }
+              })
+          }
+          
+        } else {  // error ...
+          console.log("error...")
           return false
         }
       })
     },
-    resetForm(formName) {
-      this.$refs[formName].resetFields()
+    clearForm() {
+      this.dialogVisible = false
+      // 重置表单
+      this.goodsForm = {
+        // 表单容器--对象
+        title: "", // 商品名称
+        price: "",
+        num: "",
+        sellPoint: "",
+        image: "",
+        descs: "",
+        cid:"",  // 类目的id
+        category: "", // 商品类目
+        date1: "", //商品时间
+        date2: "", //商品时间
+      }
+      // this.$refs.ruleForm.resetFields()
+      this.$refs.myEditor.editor.txt.clear()
     },
   },
 }

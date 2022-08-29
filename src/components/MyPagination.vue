@@ -1,8 +1,10 @@
 <template>
   <div class="page" style="text-align: center; margin: 20px">
+
     <el-pagination
       :hide-on-single-page="value"
       background
+      :current-change.sync="changePage"
       layout="total,prev, pager, next,jumper"
       :total="total"
       :page-size="pageSize"
