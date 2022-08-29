@@ -3,8 +3,19 @@
     <div class="header">
       <i v-if="isCollapse" @click="changeMenu" class="iconfont icon-yousuojin"></i>
       <i v-else @click="changeMenu" class="iconfont icon-zuosuojin"></i>
-
-      顶部区域
+      <div class="header-right">
+        <el-dropdown>
+          <span class="el-dropdown-link"> 选择语言 <i class="el-icon-arrow-down el-icon--right"></i> </span>
+          <el-dropdown-menu slot="dropdown">
+            <el-dropdown-item>中文</el-dropdown-item>
+            <el-dropdown-item>English</el-dropdown-item>
+          </el-dropdown-menu>
+        </el-dropdown>
+        <div class="user">
+          欢迎：XXX
+          <span>退出登录</span>
+        </div>
+      </div>
     </div>
     <!-- 内容区域，路由出口 -->
     <div class="content">
@@ -37,5 +48,20 @@ export default {
   .iconfont {
     font-size: 24px;
   }
+}
+.header-right {
+  float: right;
+  padding-right: 20px;
+  display: flex;
+  .user {
+    margin-left: 20px;
+  }
+}
+.el-dropdown-link {
+  cursor: pointer;
+  color: #ffffff;
+}
+.el-icon-arrow-down {
+  font-size: 12px;
 }
 </style>

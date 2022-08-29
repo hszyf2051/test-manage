@@ -38,7 +38,7 @@
             </el-col>
             <el-col class="line" :span="2">-</el-col>
             <el-col :span="11">
-              <el-time-picker placeholder="选择时间" v-model="goodsForm.date2" style="width: 100%"></el-time-picker>
+              <el-time-picker placeholder="选择时间" v-model="goodsForm.date2" prop="created" style="width: 100%"></el-time-picker>
             </el-col>
           </el-form-item>
           <el-form-item label="商品图片" prop="image">
@@ -211,7 +211,8 @@ export default {
             // params
             this.goodsForm
           ).then(res=>{
-            console.log(res)
+            console.log(res.data,"data..............")
+            console.log(this.goodsForm,"goodsForm")
             if(res.code===200)
              {
               this.$message({
@@ -242,10 +243,10 @@ export default {
                 type: 'success',
               })
               this.$parent.http(1); // 更新父组件数据 
-              // 添加成功 页面关闭
+              // 编辑成功 页面关闭
               this.clearForm();
             } else {
-              // 添加失败 请重新输入
+              // 编辑失败 请重新输入
               this.$message.error('商品名重复，请重新输入');
             }
               })
