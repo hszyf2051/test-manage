@@ -51,7 +51,33 @@ export default {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           console.log('校验通过', this.loginForm)
+          let { username, password } = this.loginForm
           // 请求登录接口
+          this.$api
+            .login({
+              username,
+              password,
+            })
+            .then((res) => {
+              console.log('111', res)
+              // 登录成功
+              if (res.code === 200) {
+                this.$notify({
+                  title: '成功',
+                  message: '恭喜你，登录成功',
+                  duration: 1500,
+                  type: 'success',
+                })
+              } else {
+                // 登录失败
+                console.log('错误信息为:', res.msg)
+                this.$notify.error({
+                  title: '错误信息',
+                  duration: 2000,
+                  message: res.msg,
+                })
+              }
+            })
         } else {
           console.log('error submit!!')
           return false

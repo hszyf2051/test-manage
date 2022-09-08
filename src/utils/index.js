@@ -16,20 +16,24 @@ const api = {
 
   /**
    * 根据id删除商品
-   * @param {*} params 
-   * @returns 
+   * @param {*} params
+   * @returns
    */
   deleteGoods(params) {
-    return axios.delete(base.deleteGoods,{params})
+    return axios.delete(base.deleteGoods, { params })
   },
 
   /**
    * 根据id编辑商品
-   * @param {*} params 
+   * @param {*} params
    */
   updateGoods(params) {
     return axios.put(base.updateGoods, params)
-  }
+  },
+
+  login(params) {
+    return axios.post(base.login, params)
+  },
 }
 
 export default api
