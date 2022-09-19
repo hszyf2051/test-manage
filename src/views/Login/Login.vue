@@ -19,6 +19,8 @@
 </template>
 
 <script>
+import { mapMutations } from 'vuex'
+
 export default {
   data() {
     var validateUser = (rule, value, callback) => {
@@ -47,6 +49,7 @@ export default {
     }
   },
   methods: {
+    ...mapMutations('loginModule', ['setUser']),
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
@@ -68,6 +71,9 @@ export default {
                   duration: 1500,
                   type: 'success',
                 })
+                // 登录成功后： 1。存储登录信息 2.跳转网页 3. 顶部区域显示用户信息 4.持久化
+                let obj = {}
+                this.setUser
               } else {
                 // 登录失败
                 console.log('错误信息为:', res.msg)
