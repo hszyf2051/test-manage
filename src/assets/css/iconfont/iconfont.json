@@ -6,6 +6,27 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "830930",
+      "name": "退出",
+      "font_class": "tuichu",
+      "unicode": "e636",
+      "unicode_decimal": 58934
+    },
+    {
+      "icon_id": "8953025",
+      "name": "left-indent-alt",
+      "font_class": "left-indent-alt",
+      "unicode": "e81c",
+      "unicode_decimal": 59420
+    },
+    {
+      "icon_id": "8953142",
+      "name": "right-indent-alt",
+      "font_class": "right-indent-alt",
+      "unicode": "e82b",
+      "unicode_decimal": 59435
+    },
+    {
       "icon_id": "2404402",
       "name": "右缩进",
       "font_class": "yousuojin",

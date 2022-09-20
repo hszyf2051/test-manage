@@ -63,6 +63,7 @@ export default {
             })
             .then((res) => {
               console.log('111', res)
+
               // 登录成功
               if (res.code === 200) {
                 this.$notify({
@@ -72,8 +73,15 @@ export default {
                   type: 'success',
                 })
                 // 登录成功后： 1。存储登录信息 2.跳转网页 3. 顶部区域显示用户信息 4.持久化
-                let obj = {}
-                this.setUser
+                let obj = {
+                  user: res.data.userInfoVo.username,
+                  token: res.data.token,
+                }
+                this.setUser(obj)
+                // 存储本地 将对象转化为json字符串
+                localStorage.setItem('user', JSON.stringify(obj))
+                // 跳转后台页面
+                this.$router.push('/')
               } else {
                 // 登录失败
                 console.log('错误信息为:', res.msg)

@@ -12,8 +12,8 @@
           </el-dropdown-menu>
         </el-dropdown>
         <div class="user">
-          欢迎：XXX
-          <span>退出登录</span>
+          欢迎：{{ userinfo.user }}
+          <i class="iconfont icon-tuichu" @click="loginout"></i>
         </div>
       </div>
     </div>
@@ -25,19 +25,32 @@
 </template>
 
 <script>
+import { mapState, mapMutations } from 'vuex'
 export default {
   props: ['isCollapse'],
+  computed: {
+    ...mapState('loginModule', ['userinfo']),
+  },
   data() {
     return {}
   },
   methods: {
+    ...mapMutations('loginModule', ['clearUser']),
     clickLang(command) {
-      console.log('1111', command)
       this.$i18n.locale = command
     },
     changeMenu() {
       // 点击按钮 修改父组件的数据 isCollapse
       this.$emit('changeCollapse')
+    },
+    loginout() {
+      // 退出登录
+      // 清空vuex数据
+      this.clearUser()
+      // 清空本地存储
+      localStorage.removeItem('user')
+      // 返回登录
+      this.$router.push('/login')
     },
   },
 }
@@ -50,7 +63,7 @@ export default {
   color: #fff;
   background: #1e78bf;
   .iconfont {
-    font-size: 24px;
+    font-size: 20px;
   }
 }
 .header-right {
@@ -67,5 +80,9 @@ export default {
 }
 .el-icon-arrow-down {
   font-size: 12px;
+}
+.icon-tuichu {
+  font-size: 10px;
+  padding: 10px;
 }
 </style>

@@ -12,6 +12,9 @@ Vue.prototype.$api = api
 Vue.config.productionTip = false
 // 引入i18n
 import i18n from './lang/index'
+// 路由跳转允许
+import './router/permission'
+import './utils/localStorage'
 
 Vue.use(ElementUI)
 new Vue({
